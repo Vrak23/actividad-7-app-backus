@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="water-bottle" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="40%" stop-color="#bae6fd"/>
+      <stop offset="70%" stop-color="#7dd3fc"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <circle cx="200" cy="150" r="100" fill="#38bdf8" opacity="0.12"/>
+  <!-- Bottle Shape (Plastic Water) -->
+  <path d="M188 50 L212 50 L212 75 L230 105 L228 150 L232 180 L230 240 Q230 250 220 250 L180 250 Q170 250 170 240 L168 180 L172 150 L170 105 L188 75 Z" fill="url(#water-bottle)" opacity="0.9"/>
+  <!-- Blue Cap -->
+  <rect x="186" y="42" width="28" height="12" rx="2" fill="#0284c7"/>
+  <!-- Label -->
+  <rect x="168" y="130" width="64" height="65" rx="3" fill="#ffffff"/>
+  <!-- Mountain graphic -->
+  <polygon points="182,150 192,136 202,150" fill="#0284c7"/>
+  <polygon points="196,150 206,140 216,150" fill="#38bdf8"/>
+  <text x="200" y="164" font-family="Arial, sans-serif" font-weight="900" font-size="9" fill="#0369a1" text-anchor="middle" letter-spacing="1">SAN MATEO</text>
+  <text x="200" y="174" font-family="Arial, sans-serif" font-weight="bold" font-size="6" fill="#0284c7" text-anchor="middle">AGUA DE MANANTIAL</text>
+  <text x="200" y="184" font-family="Arial, sans-serif" font-size="6" fill="#64748b" text-anchor="middle">600 ml • Sin Gas</text>
+  <!-- Highlights -->
+  <path d="M174 115 L174 235" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+</svg>

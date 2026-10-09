@@ -1,0 +1,314 @@
+<div class="app-layout">
+  <!-- Top Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-section">
+        <div class="logo-box">
+          <i class="fa-solid fa-beer-mug-empty logo-icon"></i>
+        </div>
+        <div>
+          <h1 class="brand-title">Backus Ventas</h1>
+          <p class="brand-subtitle">PWA de Fuerza de Ventas Móvil</p>
+        </div>
+      </div>
+
+      <!-- Network status & Actions -->
+      <div class="header-actions">
+        <!-- Live Connection Pill -->
+        <div class="status-badge clickable" [ngClass]="isOnline ? 'online' : 'offline'" (click)="toggleModoConexion()" title="Haz clic aquí para alternar Online / Offline manualmente para pruebas">
+          <span class="status-dot"></span>
+          <span class="status-text">{{ isOnline ? 'ONLINE (Red 4G/WiFi)' : 'OFFLINE (Caché SW)' }}</span>
+          <i class="fa-solid fa-repeat" style="font-size: 0.72rem; opacity: 0.75; margin-left: 3px;"></i>
+        </div>
+
+        <!-- Technical Panel Button -->
+        <button class="btn-tech" (click)="mostrarModalTecnico = true" title="Ver Arquitectura y Runtime Caching">
+          <i class="fa-solid fa-network-wired"></i>
+          <span>Arquitectura Caching</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button class="btn-cart" (click)="mostrarCarrito = true" aria-label="Ver Carrito">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-count" *ngIf="totalItemsCarrito() > 0">{{ totalItemsCarrito() }}</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Offline Warning Banner -->
+  <div class="offline-banner fade-in" *ngIf="!isOnline">
+    <div class="banner-content">
+      <i class="fa-solid fa-triangle-exclamation banner-icon"></i>
+      <div>
+        <strong>Modo sin conexión activo:</strong> Estás navegando con el catálogo guardado en <em>Cache Storage</em> por el <em>Service Worker</em>. Puedes seguir armando pedidos, se sincronizarán al recuperar señal.
+      </div>
+    </div>
+  </div>
+
+  <main class="main-container">
+    <!-- Hero / Controls Bar -->
+    <section class="controls-card">
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input 
+          type="text" 
+          placeholder="Buscar producto (ej. Cristal, Pilsen, Cusqueña)..." 
+          [(ngModel)]="busquedaTexto" 
+          (input)="filtrarProductos()"
+        />
+        <button *ngIf="busquedaTexto" (click)="busquedaTexto = ''; filtrarProductos()" class="btn-clear">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Categories Filter -->
+      <div class="category-filters">
+        <button 
+          class="cat-btn" 
+          [class.active]="categoriaSeleccionada === 'TODAS'" 
+          (click)="seleccionarCategoria('TODAS')">
+          <i class="fa-solid fa-layer-group"></i> Todas
+        </button>
+        <button 
+          class="cat-btn" 
+          [class.active]="categoriaSeleccionada === 'Cerveza'" 
+          (click)="seleccionarCategoria('Cerveza')">
+          <i class="fa-solid fa-beer-mug-empty"></i> Cervezas
+        </button>
+        <button 
+          class="cat-btn" 
+          [class.active]="categoriaSeleccionada === 'Gaseosa'" 
+          (click)="seleccionarCategoria('Gaseosa')">
+          <i class="fa-solid fa-bottle-droplet"></i> Gaseosas
+        </button>
+        <button 
+          class="cat-btn" 
+          [class.active]="categoriaSeleccionada === 'Agua'" 
+          (click)="seleccionarCategoria('Agua')">
+          <i class="fa-solid fa-droplet"></i> Aguas
+        </button>
+      </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+      <div class="section-header">
+        <div>
+          <h2>Catálogo de Distribución</h2>
+          <p class="section-desc">Estrategia Runtime Caching: <code>catalogo.json (Performance)</code> | <code>precios.json (Freshness)</code></p>
+        </div>
+        <button class="btn-refresh" (click)="cargarDatos()" title="Recargar y comprobar Runtime Caching">
+          <i class="fa-solid fa-arrows-rotate"></i> Refrescar Datos
+        </button>
+      </div>
+
+      <!-- Loading State -->
+      <div class="state-container" *ngIf="cargando">
+        <div class="spinner"></div>
+        <p>Cargando catálogo de productos...</p>
+      </div>
+
+      <!-- Error State -->
+      <div class="state-container error" *ngIf="!cargando && errorMensaje">
+        <i class="fa-solid fa-circle-exclamation error-icon"></i>
+        <p>{{ errorMensaje }}</p>
+        <button class="btn-primary" (click)="cargarDatos()">Reintentar</button>
+      </div>
+
+      <!-- Products Grid List -->
+      <div class="products-grid" *ngIf="!cargando && productosFiltrados.length > 0">
+        <div class="product-card" *ngFor="let item of productosFiltrados">
+          <div class="card-image-wrapper">
+            <img [src]="item.imagen" [alt]="item.nombre" loading="lazy" />
+            <span class="badge-category">{{ item.categoria }}</span>
+            <span class="badge-stock" [class.low-stock]="item.stock < 80">
+              <i class="fa-solid fa-boxes-stacked"></i> Stock: {{ item.stock }}
+            </span>
+          </div>
+
+          <div class="card-body">
+            <h3 class="product-name">{{ item.nombre }}</h3>
+            <p class="product-desc">{{ item.descripcion }}</p>
+            
+            <div class="card-footer">
+              <div class="price-box">
+                <span class="price-label">Precio Sugerido</span>
+                <span class="price-value">S/ {{ item.precio.toFixed(2) }}</span>
+              </div>
+              
+              <button class="btn-add" (click)="agregarAlCarrito(item)">
+                <i class="fa-solid fa-plus"></i> Agregar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div class="state-container empty" *ngIf="!cargando && productosFiltrados.length === 0 && !errorMensaje">
+        <i class="fa-solid fa-box-open empty-icon"></i>
+        <h3>No se encontraron productos</h3>
+        <p>Intenta con otra búsqueda o categoría.</p>
+      </div>
+    </section>
+
+    <!-- Historial de Pedidos Registrados -->
+    <section class="orders-history" *ngIf="pedidos.length > 0">
+      <div class="section-header">
+        <h2>Historial de Pedidos</h2>
+        <span class="orders-count">{{ pedidos.length }} registro(s)</span>
+      </div>
+
+      <div class="orders-list">
+        <div class="order-item" *ngFor="let ped of pedidos">
+          <div class="order-header">
+            <div>
+              <strong>{{ ped.cliente }}</strong> ({{ ped.id }})
+              <div class="order-date">{{ ped.fecha }}</div>
+            </div>
+            <div class="order-badge" [ngClass]="ped.estado === 'SINCRONIZADO' ? 'synced' : 'pending'">
+              <i class="fa-solid" [ngClass]="ped.estado === 'SINCRONIZADO' ? 'fa-check-double' : 'fa-clock'"></i>
+              {{ ped.estado }}
+            </div>
+          </div>
+
+          <div class="order-details">
+            <span *ngFor="let it of ped.items">
+              {{ it.cantidad }}x {{ it.producto.nombre }} &nbsp;•&nbsp;
+            </span>
+            <strong>Total: S/ {{ ped.total.toFixed(2) }}</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Cart Modal / Sidebar -->
+  <div class="modal-overlay fade-in" *ngIf="mostrarCarrito" (click)="mostrarCarrito = false">
+    <div class="modal-card cart-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i class="fa-solid fa-clipboard-list modal-icon"></i>
+          <h3>Registrar Pedido de Preventa</h3>
+        </div>
+        <button class="btn-close" (click)="mostrarCarrito = false">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Nombre de la Bodega / Cliente:</label>
+          <input type="text" [(ngModel)]="nombreCliente" placeholder="Ej. Bodega 'Don Carlos' - San Juan" />
+        </div>
+
+        <div class="cart-items-list" *ngIf="carrito.length > 0; else carritoVacio">
+          <div class="cart-item" *ngFor="let item of carrito">
+            <div class="cart-item-info">
+              <h4>{{ item.producto.nombre }}</h4>
+              <p>S/ {{ item.producto.precio.toFixed(2) }} c/u</p>
+            </div>
+            <div class="cart-item-controls">
+              <button class="btn-qty" (click)="cambiarCantidad(item.producto.id, -1)">-</button>
+              <span class="qty-num">{{ item.cantidad }}</span>
+              <button class="btn-qty" (click)="cambiarCantidad(item.producto.id, 1)">+</button>
+              <span class="item-subtotal">S/ {{ (item.producto.precio * item.cantidad).toFixed(2) }}</span>
+              <button class="btn-del" (click)="removerDelCarrito(item.producto.id)">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #carritoVacio>
+          <div class="cart-empty-msg">
+            <i class="fa-solid fa-cart-arrow-down"></i>
+            <p>No has agregado ningún producto al pedido.</p>
+          </div>
+        </ng-template>
+
+        <div class="cart-summary" *ngIf="carrito.length > 0">
+          <div class="summary-row">
+            <span>Subtotal estimado:</span>
+            <span>S/ {{ calcularTotal().toFixed(2) }}</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total a facturar:</span>
+            <span>S/ {{ calcularTotal().toFixed(2) }}</span>
+          </div>
+          <div class="offline-note" *ngIf="!isOnline">
+            <i class="fa-solid fa-info-circle"></i> Modo Offline: Se guardará localmente en el dispositivo.
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="mostrarCarrito = false">Cancelar</button>
+        <button class="btn-confirm" (click)="registrarPedido()" [disabled]="carrito.length === 0">
+          <i class="fa-solid fa-check"></i> Registrar Pedido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Technical Architecture Modal (Taller 2) -->
+  <div class="modal-overlay fade-in" *ngIf="mostrarModalTecnico" (click)="mostrarModalTecnico = false">
+    <div class="modal-card tech-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i class="fa-solid fa-microchip modal-icon"></i>
+          <h3>Arquitectura Técnica & Runtime Caching</h3>
+        </div>
+        <button class="btn-close" (click)="mostrarModalTecnico = false">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="tech-card-group">
+          <div class="tech-item">
+            <div class="tech-badge performance">performance (Cache First)</div>
+            <h4>Catálogo General (`/data/catalogo.json`)</h4>
+            <p><strong>Configuración:</strong> maxSize: 20, maxAge: 1d</p>
+            <p class="tech-desc">Prioriza rapidez y disponibilidad offline en rutas sin cobertura celular.</p>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-badge freshness">freshness (Network First)</div>
+            <h4>Precios y Stock (`/data/precios.json`)</h4>
+            <p><strong>Configuración:</strong> timeout: 3s, maxSize: 20, maxAge: 1h</p>
+            <p class="tech-desc">Intenta obtener precios frescos desde la red; si falla en 3s, recurre a la caché.</p>
+          </div>
+        </div>
+
+        <div class="sw-status-box">
+          <h4><i class="fa-solid fa-shield-halved"></i> Estado del Service Worker</h4>
+          <p>{{ swMensaje }}</p>
+          <div class="sw-code">
+            ngsw-worker.js: <strong>{{ swActivo ? 'ACTIVO (PWA Operativa)' : 'MODO DESARROLLO' }}</strong>
+          </div>
+        </div>
+
+        <div class="guide-box">
+          <h4><i class="fa-solid fa-list-check"></i> Pasos para Evidencias DevTools:</h4>
+          <ol>
+            <li>Abrir <code>F12 → Application → Service Workers</code> y verificar <code>ngsw-worker.js</code>.</li>
+            <li>Abrir <code>Application → Cache Storage</code> y verificar los datos en caché.</li>
+            <li>En <code>Network</code> marcar <strong>Offline</strong> y recargar para validar la disponibilidad sin red.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-primary" (click)="mostrarModalTecnico = false">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p><strong>Backus Ventas PWA</strong> • Taller Práctico 2 - SENATI • Instructor: Jorge Antonio Luque Chambi</p>
+    <p class="disclaimer">Caso académico ilustrativo para formación en Aplicaciones Web Progresivas y Angular 19.</p>
+  </footer>
+</div>

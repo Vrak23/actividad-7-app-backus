@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#581c87"/>
+      <stop offset="30%" stop-color="#d97706"/>
+      <stop offset="70%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#3b0764"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <circle cx="200" cy="150" r="100" fill="#d97706" opacity="0.1"/>
+  <!-- Bottle Shape -->
+  <path d="M185 50 L215 50 L215 80 L235 110 L235 240 Q235 250 225 250 L175 250 Q165 250 165 240 L165 110 L185 80 Z" fill="url(#amber)"/>
+  <!-- Bottle Cap -->
+  <rect x="183" y="42" width="34" height="12" rx="3" fill="#f59e0b"/>
+  <!-- Textured Neck (Inca Stone pattern) -->
+  <line x1="185" y1="88" x2="215" y2="88" stroke="#fef08a" stroke-width="1.5" opacity="0.6"/>
+  <line x1="180" y1="96" x2="220" y2="96" stroke="#fef08a" stroke-width="1.5" opacity="0.6"/>
+  <!-- Label -->
+  <rect x="168" y="130" width="64" height="75" rx="4" fill="#18181b"/>
+  <rect x="172" y="134" width="56" height="67" rx="2" stroke="#d97706" stroke-width="1.5" fill="#09090b"/>
+  <text x="200" y="158" font-family="Arial, sans-serif" font-weight="900" font-size="10" fill="#facc15" text-anchor="middle" letter-spacing="1">CUSQUEÑA</text>
+  <text x="200" y="172" font-family="Arial, sans-serif" font-weight="bold" font-size="8" fill="#ffffff" text-anchor="middle">DORADA</text>
+  <text x="200" y="186" font-family="Arial, sans-serif" font-size="6" fill="#f59e0b" text-anchor="middle">MAESTRÍA CERVECERA</text>
+  <text x="200" y="196" font-family="Arial, sans-serif" font-size="6" fill="#a1a1aa" text-anchor="middle">620 ml • Premium</text>
+  <!-- Highlights -->
+  <path d="M172 110 Q180 85 188 82" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
+  <path d="M172 135 L172 235" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.2"/>
+</svg>

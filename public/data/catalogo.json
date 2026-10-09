@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "nombre": "Cristal 620 ml",
+    "categoria": "Cerveza",
+    "precio": 3.40,
+    "stock": 120,
+    "imagen": "/images/cristal.svg",
+    "descripcion": "Cerveza rubia tradicional del Perú, perfecta para cualquier ocasión."
+  },
+  {
+    "id": 2,
+    "nombre": "Pilsen Callao 620 ml",
+    "categoria": "Cerveza",
+    "precio": 3.20,
+    "stock": 95,
+    "imagen": "/images/pilsen.svg",
+    "descripcion": "La auténtica cerveza de la amistad con más de 150 años de tradición."
+  },
+  {
+    "id": 3,
+    "nombre": "Cusqueña Dorada 620 ml",
+    "categoria": "Cerveza",
+    "precio": 4.10,
+    "stock": 70,
+    "imagen": "/images/cusquena.svg",
+    "descripcion": "Cerveza premium elaborada con 100% cebada malteada y lúpulo Saaz."
+  },
+  {
+    "id": 4,
+    "nombre": "San Mateo Sin Gas 600 ml",
+    "categoria": "Agua",
+    "precio": 1.80,
+    "stock": 150,
+    "imagen": "/images/sanmateo.svg",
+    "descripcion": "Agua mineral de manantial envasada en las alturas de San Mateo."
+  },
+  {
+    "id": 5,
+    "nombre": "Guaraná Backus 500 ml",
+    "categoria": "Gaseosa",
+    "precio": 2.20,
+    "stock": 110,
+    "imagen": "/images/guarana.svg",
+    "descripcion": "Bebida gasificada con sabor natural y energizante de guaraná."
+  }
+]

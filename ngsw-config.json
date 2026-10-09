@@ -1,0 +1,59 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.csr.html",
+          "/index.html",
+          "/manifest.webmanifest",
+          "/*.css",
+          "/*.js"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/**/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+        ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "catalogo",
+      "version": 1,
+      "urls": [
+        "/data/catalogo.json",
+        "/assets/data/catalogo.json"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 20,
+        "maxAge": "1d"
+      }
+    },
+    {
+      "name": "precios",
+      "version": 1,
+      "urls": [
+        "/data/precios.json",
+        "/assets/data/precios.json"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "3s",
+        "maxSize": 20,
+        "maxAge": "1h"
+      }
+    }
+  ]
+}

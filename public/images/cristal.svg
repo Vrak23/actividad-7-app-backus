@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-cristal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="amber-cristal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#78350f"/>
+      <stop offset="25%" stop-color="#b45309"/>
+      <stop offset="55%" stop-color="#d97706"/>
+      <stop offset="80%" stop-color="#92400e"/>
+      <stop offset="100%" stop-color="#451a03"/>
+    </linearGradient>
+    <linearGradient id="cristal-gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg-cristal)"/>
+  <circle cx="200" cy="150" r="100" fill="#eab308" opacity="0.1"/>
+
+  <!-- Bottle Shape -->
+  <path d="M185 50 L215 50 L215 80 L235 110 L235 240 Q235 250 225 250 L175 250 Q165 250 165 240 L165 110 L185 80 Z" fill="url(#amber-cristal)"/>
+
+  <!-- Golden Bottle Cap -->
+  <rect x="183" y="42" width="34" height="12" rx="3" fill="url(#cristal-gold)"/>
+
+  <!-- Neck Foil Wrap -->
+  <path d="M184 75 L216 75 L218 95 L182 95 Z" fill="url(#cristal-gold)" opacity="0.85"/>
+  <text x="200" y="89" font-family="Arial, sans-serif" font-weight="bold" font-size="7" fill="#002b80" text-anchor="middle">CRISTAL</text>
+
+  <!-- Main Label -->
+  <rect x="168" y="130" width="64" height="75" rx="4" fill="#ffffff"/>
+  <rect x="171" y="133" width="58" height="69" rx="2" fill="#0038a8"/>
+
+  <!-- Label Details -->
+  <circle cx="200" cy="148" r="10" fill="url(#cristal-gold)"/>
+  <text x="200" y="152" font-family="Arial, sans-serif" font-weight="900" font-size="8" fill="#0038a8" text-anchor="middle">★</text>
+
+  <text x="200" y="169" font-family="Arial, sans-serif" font-weight="900" font-size="13" fill="#ffffff" text-anchor="middle" letter-spacing="1">CRISTAL</text>
+  <text x="200" y="181" font-family="Arial, sans-serif" font-weight="bold" font-size="5.5" fill="#facc15" text-anchor="middle" letter-spacing="0.5">LA CERVEZA DEL PERÚ</text>
+  <text x="200" y="193" font-family="Arial, sans-serif" font-size="5.5" fill="#e2e8f0" text-anchor="middle">620 ml • Desde 1922</text>
+
+  <!-- Specular Highlights -->
+  <path d="M172 110 Q180 85 188 82" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
+  <path d="M172 135 L172 235" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
+</svg>
