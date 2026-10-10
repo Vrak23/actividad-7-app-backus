@@ -337,23 +337,14 @@
 
 .card-image-wrapper {
   position: relative;
-  height: 180px;
-  background: #0f172a;
+  height: 170px;
+  background: #f8fafc;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    padding: 8px;
-    transition: transform 0.3s ease;
-  }
-
-  &:hover img {
-    transform: scale(1.05);
+    object-fit: cover;
   }
 
   .badge-category {
